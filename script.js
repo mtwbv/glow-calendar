@@ -3,7 +3,7 @@ const loginDiv = document.getElementById("login");
 const calendarDiv = document.getElementById("calendar");
 
 function enter() {
-  const code = document.getElementById("code").value;
+  const code = document.getElementById("code").value.trim();
   if (!/^[0-9]{3}$/.test(code)) {
     alert("Please enter a valid 3-digit code");
     return;
@@ -11,6 +11,7 @@ function enter() {
   currentUser = code;
   loginDiv.classList.add("hidden");
   calendarDiv.classList.remove("hidden");
+  calendarDiv.innerHTML = ""; // очистка предыдущего календаря
   loadCalendar();
 }
 

@@ -1,38 +1,62 @@
 body {
   margin: 0;
-  background: #111;
+  background: linear-gradient(to bottom, #0f0f0f, #1a1a1a);
   color: #fff;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 30px;
+  align-items: center;
   height: 100vh;
 }
 .container {
   width: 100%;
   max-width: 1200px;
+  padding: 20px;
 }
 .hidden {
   display: none;
 }
 .login-screen {
   text-align: center;
-  margin-bottom: 20px;
+  background: #222;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
 }
-input[type=password] {
+.login-screen h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+.login-screen input {
   font-size: 24px;
-  width: 80px;
+  width: 100px;
+  padding: 10px;
   text-align: center;
-  margin: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: white;
 }
-button {
+.login-screen button {
   font-size: 16px;
-  padding: 6px 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #facc15;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.login-screen button:hover {
+  background: #fbbf24;
 }
 .calendar {
   display: flex;
   gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-top: 30px;
 }
 .month {
   display: flex;
@@ -60,7 +84,7 @@ button {
   box-sizing: border-box;
 }
 .day.active {
-  background: yellow;
+  background: #facc15;
   color: #000;
 }
 .day.today {
