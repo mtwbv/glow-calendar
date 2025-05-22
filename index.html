@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Glow Calendar</title>
+  <title>Glow Calendar Login</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="calendar" id="calendar"></div>
+  <div class="container">
+    <div id="login" class="login-screen">
+      <h2>Enter 3-digit Code</h2>
+      <input type="password" id="code" maxlength="3" placeholder="e.g. 123">
+      <button onclick="enter()">Enter</button>
+    </div>
+    <div id="calendar" class="calendar hidden"></div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
