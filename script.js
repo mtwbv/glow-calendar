@@ -1,21 +1,41 @@
-let currentUser = null;
-const loginDiv = document.getElementById("login");
 const calendarDiv = document.getElementById("calendar");
+const GITHUB_USERNAME = "your-username";
+const REPO = "your-repo";
+const FILE = "data.json";
+const TOKEN = "your-token"; // WARNING: keep this private if deploying
 
-function enter() {
-  const code = document.getElementById("code").value.trim();
-  if (!/^[0-9]{3}$/.test(code)) {
-    alert("Please enter a valid 3-digit code");
-    return;
-  }
-  currentUser = code;
-  loginDiv.classList.add("hidden");
-  calendarDiv.classList.remove("hidden");
-  calendarDiv.innerHTML = ""; // очистка предыдущего календаря
-  loadCalendar();
+let state = {};
+
+function fetchData() {
+  fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO}/contents/${FILE}`, {
+    headers: { Authorization: `token ${TOKEN}` }
+  })
+    .then(res => res.json())
+    .then(file => {
+      const content = atob(file.content);
+      state = JSON.parse(content || "{}");
+      renderCalendar(file.sha);
+    });
 }
 
-function loadCalendar() {
+function saveData(newState, sha) {
+  const body = {
+    message: "Update calendar",
+    content: btoa(JSON.stringify(newState)),
+    sha
+  };
+
+  fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO}/contents/${FILE}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  }).then(() => console.log("Saved!"));
+}
+
+function renderCalendar(sha) {
   const months = [
     { name: "jan", days: 31 }, { name: "feb", days: 28 }, { name: "mar", days: 31 },
     { name: "apr", days: 30 }, { name: "may", days: 31 }, { name: "jun", days: 30 },
@@ -25,9 +45,11 @@ function loadCalendar() {
   const year = new Date().getFullYear();
   if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) months[1].days = 29;
 
-  const now = new Date();
-  const todayMonth = now.getMonth(), todayDay = now.getDate();
-  const state = JSON.parse(localStorage.getItem("calendar-" + currentUser) || "{}");
+  const today = new Date();
+  const todayMonth = today.getMonth();
+  const todayDay = today.getDate();
+
+  calendarDiv.innerHTML = "";
 
   months.forEach((month, mIndex) => {
     const col = document.createElement("div");
@@ -49,7 +71,7 @@ function loadCalendar() {
       btn.addEventListener("click", () => {
         btn.classList.toggle("active");
         state[id] = btn.classList.contains("active");
-        localStorage.setItem("calendar-" + currentUser, JSON.stringify(state));
+        saveData(state, sha);
       });
 
       col.appendChild(btn);
@@ -58,3 +80,5 @@ function loadCalendar() {
     calendarDiv.appendChild(col);
   });
 }
+
+fetchData();
