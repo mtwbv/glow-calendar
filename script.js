@@ -1,8 +1,8 @@
 const calendarDiv = document.getElementById("calendar");
-const GITHUB_USERNAME = "your-username";
-const REPO = "your-repo";
+const GITHUB_USERNAME = "mtwbv";
+const REPO = "glow-data";
 const FILE = "data.json";
-const TOKEN = "your-token"; // WARNING: keep this private if deploying
+const TOKEN = "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"; // WARNING: keep this private if deploying
 
 let state = {};
 
